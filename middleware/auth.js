@@ -1,11 +1,9 @@
 import jwt from 'jsonwebtoken';
 
-// Admin-only authentication middleware
 const authenticateToken = async (req, res, next) => {
   try {
-    // Get token from header
     const authHeader = req.headers.authorization;
-    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+    const token = authHeader && authHeader.split(' ')[1];
 
     if (!token) {
       return res.status(401).json({
@@ -14,10 +12,8 @@ const authenticateToken = async (req, res, next) => {
       });
     }
 
-    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     
-    // Check if it's the admin email (from admin login)
     if (decoded.email !== process.env.ADMIN_EMAIL) {
       return res.status(401).json({
         success: false,
@@ -25,7 +21,6 @@ const authenticateToken = async (req, res, next) => {
       });
     }
 
-    // Add admin info to request
     req.user = {
       email: decoded.email,
       role: 'admin'
