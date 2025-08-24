@@ -3,6 +3,7 @@ import 'dotenv/config';
 import express from 'express';
 import connectDB from './configs/db.js';
 import adminRouter from './routes/adminRoutes.js';
+import authRouter from './routes/authRoutes.js';
 import blogRouter from './routes/blogRoutes.js';
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.json())
 // ROUTES
 app.get('/', (req, res) => res.send("API is working"))
 app.use('/api/admin', adminRouter)
+app.use('/api/auth', authRouter)
 app.use('/api/blog', blogRouter)
 
 const PORT = process.env.PORT || 3000;
